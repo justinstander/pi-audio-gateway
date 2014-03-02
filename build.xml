@@ -1,0 +1,54 @@
+<project name="AudioGateway" basedir=".">
+	<property file="build.properties"/>
+	
+	<path id="catalina-ant-classpath">
+	    <fileset dir="${appserver.lib}">
+	           <include name="catalina-ant.jar"/>
+	           <include name="tomcat-coyote.jar"/>
+	           <include name="tomcat-util.jar"/>
+	        </fileset>
+	    <fileset dir="${appserver.home}/bin">
+	               <include name="tomcat-juli.jar"/>
+	    </fileset>
+	</path>
+	
+	<taskdef name="catalina-deploy" classname="org.apache.catalina.ant.DeployTask" classpathref="catalina-ant-classpath"/>
+	<taskdef name="catalina-list" classname="org.apache.catalina.ant.ListTask" classpathref="catalina-ant-classpath"/>
+	<taskdef name="catalina-reload" classname="org.apache.catalina.ant.ReloadTask" classpathref="catalina-ant-classpath"/>
+	<taskdef name="catalina-findleaks" classname="org.apache.catalina.ant.FindLeaksTask" classpathref="catalina-ant-classpath"/>
+	<taskdef name="catalina-resources" classname="org.apache.catalina.ant.ResourcesTask" classpathref="catalina-ant-classpath"/>
+	<taskdef name="catalina-start" classname="org.apache.catalina.ant.StartTask" classpathref="catalina-ant-classpath"/>
+	<taskdef name="catalina-stop" classname="org.apache.catalina.ant.StopTask" classpathref="catalina-ant-classpath"/>
+	<taskdef name="catalina-undeploy" classname="org.apache.catalina.ant.UndeployTask" classpathref="catalina-ant-classpath"/>
+	
+	<target name = "stop-webapp">
+	       <catalina-stop url="${tomcat.manager.url}"
+	                         username="${tomcat.username}"
+	                         password="${tomcat.password}"
+	                         path="/${webapp.name}"
+	                         failonerror="false"/>
+	</target>
+
+	<target name = "start-webapp">
+	    <catalina-start url="${tomcat.manager.url}"
+	                       username="${tomcat.username}"
+	                       password="${tomcat.password}"
+	                       path="/${webapp.name}"/>
+	</target>
+
+	<target name = "undeploy-webapp">
+	    <catalina-undeploy url="${tomcat.manager.url}"
+	                          username="${tomcat.username}"
+	                          password="${tomcat.password}"
+	                          path="/${webapp.name}"
+	                          failonerror="false"/>
+	</target>
+
+	<target name = "deploy-webapp">
+	    <catalina-deploy url="${tomcat.manager.url}"
+	                        username="${tomcat.username}"
+	                        password="${tomcat.password}"
+	                        path="/${webapp.name}"
+	                        war="file:${war.file}"/>
+	</target>
+</project>

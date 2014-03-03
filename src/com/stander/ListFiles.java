@@ -44,6 +44,7 @@ public final class ListFiles extends HttpServlet {
 	 */
 	public void destroy() {
 		logger.info("destroy");
+		model = null;
 	}
 
 	/**
@@ -69,6 +70,7 @@ public final class ListFiles extends HttpServlet {
 			HttpServletRequest request, 
 			HttpServletResponse response) throws ServletException, IOException {
 		logger.info("service");
+		super.service(request, response);
 	}
 	
 	/**
@@ -77,7 +79,11 @@ public final class ListFiles extends HttpServlet {
 	protected void doGet(
 			HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		logger.info("doGet");
+		logger.info("*** doGet");
+		String id = request.getParameter("id");
+		if( id != null ) {
+			logger.info(id.toString());
+		}
 	}
 
 	/**
@@ -86,7 +92,7 @@ public final class ListFiles extends HttpServlet {
 	protected void doPost(
 			HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		logger.info("AudioGateway#doPost");
+		logger.info("*** AudioGateway#doPost");
 	}
 
 	/**

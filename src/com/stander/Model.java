@@ -15,13 +15,13 @@ public final class Model {
 	private static final String PATH = "/Users/jstander/music/jstander";
 	//private static final String PATH = "/home/pi/music";
 	private static Model instance;
-	private List<File> mArtists;
+	private List<Artist> mArtists;
 	
 	
 	/**
 	 * Private, Singleton
 	 */
-	private Model(List<File> artists) {
+	private Model(List<Artist> artists) {
 		super();
 		mArtists = artists;
 	}
@@ -39,7 +39,7 @@ public final class Model {
 	/**
 	 * @return
 	 */
-	public List<File> getArtists() {
+	public List<Artist> getArtists() {
 		return mArtists;
 	}
 	
@@ -49,13 +49,13 @@ public final class Model {
 	private static Model getModel() {
 		File root = new File(PATH);
 		File[] files = root.listFiles();
-		List<File> directories = new ArrayList<File>();
+		List<Artist> directories = new ArrayList<Artist>();
 		
 		int count = files.length;
 		for(int i=0;i<count;i++) {
 			File file = files[i];
 			if( file.isDirectory() ) {
-				directories.add(files[i]);
+				directories.add(new Artist(files[i]));
 			}
 		}
 		

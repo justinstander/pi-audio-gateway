@@ -6,16 +6,18 @@ import java.io.File;
  * @author jstander
  *
  */
-public class Music {
+public class Music extends FileItem {
 	private int mId;
 	private String mPath;
 
-	public Music(File file) {
+	public Music(File file,int index) {
 		super();
-		init(file);
+		init(file,index);
 	}
 	
-	private void init(File file) {
+	@Override
+	protected void init(File file,int index) {
+		super.init(file,index);
 		mPath = file.getAbsolutePath();
 	}
 

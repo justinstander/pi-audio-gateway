@@ -2,25 +2,46 @@ package com.stander;
 
 import java.io.File;
 
+/**
+ * @author justin.stander
+ *
+ */
 public class FileItem {
-	public static final String mBreak = "\n";
-	public static final String mSpace = " ";
-	public static final String mPeriod = ".";
-	protected File mFile  = null;
-	private String mName;
 	
-	protected void init(File file) {
+	private String mName;
+	private int mId;
+	protected File mFile  = null;
+	
+	/**
+	 * @param file
+	 */
+	protected void init(File file,int index) {
 		mFile = file;
+		mName = file.getName();
+		mId = index;
 	}
 	
+	/**
+	 * @return
+	 */
+	public int getId() {
+		return mId;
+	}
+	
+	/**
+	 * @return
+	 */
 	public String getName() {
 		return mName;
 	}
 	
+	/**
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		StringBuilder mString = new StringBuilder();
-		mString.append("Name : ").append(mName).append(mBreak);
+		mString.append(mId).append(" Name : ").append(mName);
 		return mString.toString();
 	}
 }

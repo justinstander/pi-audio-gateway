@@ -1,31 +1,37 @@
 package com.stander;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Servlet implementation class AudioGateway
  */
-@WebServlet(description = "Audio file listing", urlPatterns = { "/ListFiles" })
-public final class ListFiles extends HttpServlet {
-	private static final Logger logger = LoggerFactory.getLogger(ListFiles.class);
+@WebServlet(description = "Audio file listing", urlPatterns = { "/Files" })
+public final class Files extends HttpServlet {
+	private static final Logger logger = LoggerFactory.getLogger(Files.class);
 	private static final long serialVersionUID = 1L;
+	private static final String AUDIO_PATH = "AudioPath";
 	private static Model model;
 
     /**
      * Default constructor. 
      */
-    public ListFiles() {
+    public Files() {
         super();
     }
 
@@ -34,9 +40,13 @@ public final class ListFiles extends HttpServlet {
 	 */
 	public void init(ServletConfig config) throws ServletException {
 		logger.info("init");
+		String path = config.getServletContext().getInitParameter(AUDIO_PATH);
+		logger.info("Using Audio Path: "+path);
+		
 		model = Model.getInstance();
-		logger.info("Directories: ");
-		logger.info(model.getArtists().toString());
+		model.init(path);
+		
+//		logger.info(model.getArtists().toString());
 	}
 
 	/**
@@ -80,9 +90,50 @@ public final class ListFiles extends HttpServlet {
 			HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		logger.info("*** doGet");
-		String id = request.getParameter("id");
-		if( id != null ) {
-			logger.info(id.toString());
+		String artist = request.getParameter("artist");
+		String album = request.getParameter("album");
+		String song = request.getParameter("song");
+		logger.info("artist: "+artist+" album: "+album+" song: "+song);
+		
+		if( artist != null && album != null && song != null ) {
+			sendFile(artist,album,song,response.getOutputStream());
+		} else {
+			sendFileList(response.getOutputStream());
+		}
+	}
+
+	private void sendFileList(ServletOutputStream outputStream) {
+		logger.info("sendFileList");
+	}
+
+	/**
+	 * @param artist
+	 * @param album
+	 * @param song
+	 * @param outputStream
+	 */
+	private void sendFile(String artist, String album, String song,
+			ServletOutputStream outputStream) {
+		Model model = Model.getInstance();
+		
+		int artistId = Integer.parseInt(artist);
+		int albumId = Integer.parseInt(album);
+		int songId = Integer.parseInt(song);
+		
+		Music music = model.
+				getArtists().get(artistId).
+				getAlbums().get(albumId).
+				getMusic().get(songId);
+		
+		try {
+			IOUtils.copy(
+				new FileInputStream(new File(music.getPath())),
+				outputStream
+			);
+		} catch (FileNotFoundException e) {
+			logger.error(e.getMessage(),e);
+		} catch (IOException e) {
+			logger.error(e.getMessage(),e);
 		}
 	}
 
@@ -137,7 +188,7 @@ public final class ListFiles extends HttpServlet {
 	protected void doTrace(
 			HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		logger.info("AudioGateway#doOptions");
+		logger.info("AudioGateway#doTrace");
 	}
 
 }

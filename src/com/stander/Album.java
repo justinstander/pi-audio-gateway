@@ -4,36 +4,50 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author justin.stander
+ *
+ */
 public class Album extends FileItem {
 	private static final String MP3 = "mp3";
-//	private static Logger logger = LoggerFactory.getLogger(Album.class);
 	private List<Music> mMusic = null;
 	
-	public Album(File file) {
+	/**
+	 * @param file
+	 */
+	public Album(File file,int index) {
 		super();
-		init(file);
+		init(file,index);
 	}
 	
+	/**
+	 * @return
+	 */
 	public List<Music> getMusic() {
 		return mMusic;
 	}
 	
+	/**
+	 * @see com.stander.FileItem#toString()
+	 */
 	@Override
 	public String toString() {
 		StringBuilder mString = new StringBuilder(super.toString());
-		
-		mString.append("---------------").append(mBreak);
+		mString.append(String.format("%n"));
 		int a = mMusic.size();
 		for(int i=0;i<a;i++) {
-			mString.append(mSpace).append(a+1).append(mPeriod).append(mSpace).append(mMusic.get(a).toString()).append(mBreak);
+			mString.append(mMusic.get(i).toString());
+			mString.append(String.format("%n"));
 		}
-		mString.append("");
 		return mString.toString();
 	}
 	
+	/**
+	 * @see com.stander.FileItem#init(java.io.File)
+	 */
 	@Override
-	protected void init(File file) {
-		super.init(file);
+	protected void init(File file,int index) {
+		super.init(file,index);
 		
 		mMusic = new ArrayList<Music>();
 		
@@ -43,10 +57,9 @@ public class Album extends FileItem {
 			File item = files[i];
 			if( item.isFile() ) {
 				String name = item.getName();
-				int length = name.length();
-				//logger.info("name: "+name);
-				if( name.substring(length-3) == MP3 ) {
-					mMusic.add(new Music(item));
+				String extension = name.substring(name.lastIndexOf('.')+1);
+				if( extension.equals(MP3) ) {
+					mMusic.add(new Music(item,i));
 				}
 			}
 		}

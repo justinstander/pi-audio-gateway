@@ -12,8 +12,6 @@ import java.util.List;
  *
  */
 public final class Model {
-	private static final String PATH = "/Users/jstander/music/jstander";
-	//private static final String PATH = "/home/pi/music";
 	private static Model instance;
 	private List<Artist> mArtists;
 	
@@ -21,9 +19,8 @@ public final class Model {
 	/**
 	 * Private, Singleton
 	 */
-	private Model(List<Artist> artists) {
+	private Model() {
 		super();
-		mArtists = artists;
 	}
 	
 	/**
@@ -31,7 +28,7 @@ public final class Model {
 	 */
 	public static Model getInstance() {
 		if( instance == null ) {
-			instance = getModel();
+			instance = new Model();
 		}
 		return instance;
 	}
@@ -46,20 +43,17 @@ public final class Model {
 	/**
 	 * @return
 	 */
-	private static Model getModel() {
-		File root = new File(PATH);
+	public void init(String path) {
+		File root = new File(path);
 		File[] files = root.listFiles();
-		List<Artist> directories = new ArrayList<Artist>();
+		mArtists = new ArrayList<Artist>();
 		
 		int count = files.length;
 		for(int i=0;i<count;i++) {
 			File file = files[i];
 			if( file.isDirectory() ) {
-				directories.add(new Artist(files[i]));
+				mArtists.add(new Artist(files[i],i));
 			}
 		}
-		
-		Model model = new Model(directories);
-		return model;
 	}
 }

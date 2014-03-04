@@ -45,14 +45,16 @@ public final class Model {
 	 */
 	public void init(String path) {
 		File root = new File(path);
-		File[] files = root.listFiles();
 		mArtists = new ArrayList<Artist>();
 		
-		int count = files.length;
-		for(int i=0;i<count;i++) {
-			File file = files[i];
-			if( file.isDirectory() ) {
-				mArtists.add(new Artist(files[i],i));
+		if( root.exists() ) {
+			File[] files = root.listFiles();
+			int count = files.length;
+			for(int i=0;i<count;i++) {
+				File file = files[i];
+				if( file.isDirectory() ) {
+					mArtists.add(new Artist(files[i],i));
+				}
 			}
 		}
 	}

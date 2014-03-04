@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
@@ -98,12 +99,13 @@ public final class Files extends HttpServlet {
 		if( artist != null && album != null && song != null ) {
 			sendFile(artist,album,song,response.getOutputStream());
 		} else {
-			sendFileList(response.getOutputStream());
+			sendFileList(response.getWriter());
 		}
 	}
 
-	private void sendFileList(ServletOutputStream outputStream) {
+	private void sendFileList(PrintWriter output) {
 		logger.info("sendFileList");
+		output.println(model.getArtists().toString());
 	}
 
 	/**

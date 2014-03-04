@@ -7,14 +7,20 @@ import java.io.File;
  *
  */
 public class Music extends FileItem {
-	private int mId;
 	private String mPath;
 
+	/**
+	 * @param file
+	 * @param index
+	 */
 	public Music(File file,int index) {
 		super();
 		init(file,index);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.stander.FileItem#init(java.io.File, int)
+	 */
 	@Override
 	protected void init(File file,int index) {
 		super.init(file,index);
@@ -26,9 +32,5 @@ public class Music extends FileItem {
 	 */
 	public String getPath() {
 		return mPath;
-	}
-	
-	public int getId() {
-		return mId;
 	}
 }

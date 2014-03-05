@@ -16,7 +16,6 @@ public class FileItem {
 	 * @param file
 	 */
 	protected void init(File file,int index) {
-		mFile = file;
 		mName = file.getName();
 		mId = index;
 	}

@@ -53,7 +53,7 @@ public class Artist extends FileItem {
 		for( int i=0;i<count;i++ ) {
 			if(files[i].isDirectory()) {
 				int id = mAlbums.size();
-				mAlbums.add(new Album(files[i],id));
+				mAlbums.add(new Album(files[i],id,getId()));
 			}
 		}
 	}

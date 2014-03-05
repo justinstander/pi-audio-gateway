@@ -7,30 +7,50 @@ import java.io.File;
  *
  */
 public class Music extends FileItem {
+	private int mArtistId;
+	private int mAlbumId;
 	private String mPath;
 
 	/**
 	 * @param file
 	 * @param index
 	 */
-	public Music(File file,int index) {
+	public Music(File file,int index,int artistId,int albumId) {
 		super();
-		init(file,index);
+		init(file,index,artistId,albumId);
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.stander.FileItem#init(java.io.File, int)
+	/**
+	 * @return
 	 */
-	@Override
-	protected void init(File file,int index) {
-		super.init(file,index);
-		mPath = file.getAbsolutePath();
+	public int getArtistId() {
+		return mArtistId;
 	}
-
+	
+	/**
+	 * @return
+	 */
+	public int getAlbumId() {
+		return mAlbumId;
+	}
+	
 	/**
 	 * @return
 	 */
 	public String getPath() {
 		return mPath;
+	}
+	
+	/**
+	 * @param file
+	 * @param index
+	 * @param artistId
+	 * @param albumId
+	 */
+	protected void init(File file,int index,int artistId,int albumId) {
+		super.init(file,index);
+		mArtistId = artistId;
+		mAlbumId = albumId;
+		mPath = file.getAbsolutePath();
 	}
 }

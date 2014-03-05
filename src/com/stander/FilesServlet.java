@@ -43,11 +43,7 @@ public final class FilesServlet extends HttpServlet {
 	 */
 	public void init(ServletConfig config) throws ServletException {
 		logger.info("init");
-//		logger.info("Using Audio Path: "+path);
-		
 		Model.getInstance().init(config.getServletContext().getInitParameter(AUDIO_PATH));
-		
-//		logger.info(model.getArtists().toString());
 	}
 
 	/**
@@ -56,32 +52,6 @@ public final class FilesServlet extends HttpServlet {
 	public void destroy() {
 		logger.info("destroy");
 	}
-
-//	/**
-//	 * @see Servlet#getServletConfig()
-//	 */
-//	public ServletConfig getServletConfig() {
-//		logger.info("AudioGateway#getServletConfig");
-//		return super.getServletConfig();
-//	}
-
-//	/**
-//	 * @see Servlet#getServletInfo()
-//	 */
-//	public String getServletInfo() {
-//		logger.info("AudioGateway#getServletInfo");
-//		return super.getServletInfo(); 
-//	}
-
-//	/**
-//	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
-//	 */
-//	protected void service(	
-//			HttpServletRequest request, 
-//			HttpServletResponse response) throws ServletException, IOException {
-//		logger.info("service");
-//		super.service(request, response);
-//	}
 	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -102,6 +72,9 @@ public final class FilesServlet extends HttpServlet {
 		}
 	}
 
+	/**
+	 * @param output
+	 */
 	private void sendFileList(PrintWriter output) {
 		logger.info("sendFileList");
 		Gson gson = new GsonBuilder().create();
@@ -139,59 +112,4 @@ public final class FilesServlet extends HttpServlet {
 			logger.error(e.getMessage(),e);
 		}
 	}
-
-//	/**
-//	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-//	 */
-//	protected void doPost(
-//			HttpServletRequest request,
-//			HttpServletResponse response) throws ServletException, IOException {
-//		logger.info("*** AudioGateway#doPost");
-//	}
-
-//	/**
-//	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
-//	 */
-//	protected void doPut(
-//			HttpServletRequest request,
-//			HttpServletResponse response) throws ServletException, IOException {
-//		logger.info("AudioGateway#doPut");
-//	}
-
-//	/**
-//	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
-//	 */
-//	protected void doDelete(
-//			HttpServletRequest request,
-//			HttpServletResponse response) throws ServletException, IOException {
-//		logger.info("AudioGateway#doDelete");
-//	}
-
-//	/**
-//	 * @see HttpServlet#doHead(HttpServletRequest, HttpServletResponse)
-//	 */
-//	protected void doHead(
-//			HttpServletRequest request,
-//			HttpServletResponse response) throws ServletException, IOException {
-//		logger.info("AudioGateway#doHead");
-//	}
-
-//	/**
-//	 * @see HttpServlet#doOptions(HttpServletRequest, HttpServletResponse)
-//	 */
-//	protected void doOptions(
-//			HttpServletRequest request,
-//			HttpServletResponse response) throws ServletException, IOException {
-//		logger.info("AudioGateway#doOptions");
-//	}
-
-//	/**
-//	 * @see HttpServlet#doTrace(HttpServletRequest, HttpServletResponse)
-//	 */
-//	protected void doTrace(
-//			HttpServletRequest request,
-//			HttpServletResponse response) throws ServletException, IOException {
-//		logger.info("AudioGateway#doTrace");
-//	}
-
 }

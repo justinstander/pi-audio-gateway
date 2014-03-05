@@ -10,14 +10,22 @@ import java.util.List;
  */
 public class Album extends FileItem {
 	private static final String MP3 = "mp3";
+	private int mArtistId;
 	private List<Music> mMusic = null;
 	
 	/**
 	 * @param file
 	 */
-	public Album(File file,int index) {
+	public Album(File file,int index,int artistId) {
 		super();
-		init(file,index);
+		init(file,index,artistId);
+	}
+	
+	/**
+	 * @return
+	 */
+	public int getArtistId() {
+		return mArtistId;
 	}
 	
 	/**
@@ -45,10 +53,10 @@ public class Album extends FileItem {
 	/**
 	 * @see com.stander.FileItem#init(java.io.File)
 	 */
-	@Override
-	protected void init(File file,int index) {
+	protected void init(File file,int index,int artistId) {
 		super.init(file,index);
 		
+		mArtistId = artistId;
 		mMusic = new ArrayList<Music>();
 		
 		File[] files = file.listFiles();
@@ -59,8 +67,8 @@ public class Album extends FileItem {
 				String name = item.getName();
 				String extension = name.substring(name.lastIndexOf('.')+1);
 				if( extension.equals(MP3) ) {
-					int id = mMusic.size();
-					mMusic.add(new Music(item,id));
+					int musicId = mMusic.size();
+					mMusic.add(new Music(item, musicId, artistId, getId()));
 				}
 			}
 		}

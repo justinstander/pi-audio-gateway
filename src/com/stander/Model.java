@@ -53,7 +53,8 @@ public final class Model {
 			for(int i=0;i<count;i++) {
 				File file = files[i];
 				if( file.isDirectory() ) {
-					mArtists.add(new Artist(files[i],i));
+					int id = mArtists.size();
+					mArtists.add(new Artist(files[i],id));
 				}
 			}
 		}

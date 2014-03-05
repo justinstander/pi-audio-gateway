@@ -59,7 +59,8 @@ public class Album extends FileItem {
 				String name = item.getName();
 				String extension = name.substring(name.lastIndexOf('.')+1);
 				if( extension.equals(MP3) ) {
-					mMusic.add(new Music(item,i));
+					int id = mMusic.size();
+					mMusic.add(new Music(item,id));
 				}
 			}
 		}

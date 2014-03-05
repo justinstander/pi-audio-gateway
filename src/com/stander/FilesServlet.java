@@ -26,15 +26,15 @@ import com.google.gson.GsonBuilder;
  * Servlet implementation class AudioGateway
  */
 @WebServlet(description = "Audio file listing", urlPatterns = { "/Files" })
-public final class Files extends HttpServlet {
+public final class FilesServlet extends HttpServlet {
 	private static final String AUDIO_PATH = "AudioPath";
-	private static final Logger logger = LoggerFactory.getLogger(Files.class);
+	private static final Logger logger = LoggerFactory.getLogger(FilesServlet.class);
 	private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor. 
      */
-    public Files() {
+    public FilesServlet() {
         super();
     }
 

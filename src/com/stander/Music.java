@@ -10,6 +10,10 @@ public class Music extends FileItem {
 	private int mArtistId;
 	private int mAlbumId;
 	private String mPath;
+	
+	public String title;
+	public String year;
+	public int trackNumber;
 
 	/**
 	 * @param file

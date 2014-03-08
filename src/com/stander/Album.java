@@ -75,9 +75,7 @@ public class Album extends FileItem {
 				String name = item.getName();
 				String extension = name.substring(name.lastIndexOf('.')+1);
 				if( extension.equals(MP3) ) {
-					int musicId = mMusic.size();
-					Music musicItem = new Music(item, musicId, artistId, getId());
-					readTags(item,musicItem);
+					Music musicItem = readTags(item, artistId, getId());
 					mMusic.add(musicItem);
 				}
 			}
@@ -90,8 +88,9 @@ public class Album extends FileItem {
 	 * @param item
 	 * @return
 	 */
-	private void readTags(File item,Music music) {
+	private Music readTags(File item,int artistId,int albumId) {
 		FileInputStream file = null;
+		Music music = null;
 		
 		try {
 			file = new FileInputStream(item);
@@ -106,7 +105,7 @@ public class Album extends FileItem {
 				file.skip(size - 128);
 			} catch (IOException e) {
 				logger.error(e.getMessage(),e);
-				return;
+				return null;
 			}
 			
 	        byte[] last128 = new byte[128]; 
@@ -115,30 +114,23 @@ public class Album extends FileItem {
 				file.read(last128);
 			} catch (IOException e) {
 				logger.error(e.getMessage(),e);
-				return;
+				return null;
 			} 
 	        
 	        String id3 = new String(last128); 
-	        String tag = id3.substring(0, 3); 
-//	        logger.info("FULL TAG: "+id3);
+	        String tag = id3.substring(0, 3);
+	        
 	        if (tag.equals("TAG")) { 
-//	           logger.info("Title: " + id3.substring(3, 32)); 
+	        	int zeroByte = last128[125];
+		           if( zeroByte == 0 ) {
+		        	   int trackNumber = last128[126];
+		        	   music = new Music(item, trackNumber-1, artistId, albumId);
+		        	   music.trackNumber = trackNumber;
+		           }
 	        	music.title = id3.substring(3, 32);
-//	           logger.info("Artist: " + id3.substring(33, 62)); 
-//	           logger.info("Album: " + id3.substring(63, 92)); 
-//	           logger.info("Year: " + id3.substring(93, 97));
 	        	music.year = id3.substring(93, 97);
-//	           logger.info("Comment: "+ id3.substring(97, 126));
-	           int zeroByte = last128[125];
-//	           logger.info("Zero Byte: "+zeroByte);
-	           if( zeroByte == 0 ) {
-//	        	   logger.info("Track: "+last128[126]);
-	        	   music.trackNumber = last128[126];
-//	        	   logger.info("Genre: "+last128[127]);
-	           }
-	           
 	        } else {
-	        	logger.info(" does not contain" + " ID3 info.");
+	        	music = new Music(item,mMusic.size(),artistId,albumId);
 	        }
 	             
 	        try {
@@ -147,5 +139,7 @@ public class Album extends FileItem {
 				logger.error(e.getMessage(),e);
 			}
 		}
+		
+		return music;
 	}
 }

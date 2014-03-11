@@ -3,7 +3,7 @@ package com.stander;
 import java.io.File;
 
 /**
- * @author jstander
+ * @author Justin Stander (justin.stander@gmail.com)
  *
  */
 public class Music extends FileItem {

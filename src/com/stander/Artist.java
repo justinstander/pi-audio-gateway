@@ -31,7 +31,7 @@ public class Artist extends FileItem {
 	 */
 	@Override
 	public String toString() {
-		StringBuilder mString = new StringBuilder(super.toString()).append(String.format("%n"));
+		StringBuilder mString = new StringBuilder(super.toString()).append(String.format(LINE_BREAK));
 		int a = mAlbums.size();
 		for( int i=0;i<a;i++ ) {
 			mString.append(mAlbums.get(i).toString());

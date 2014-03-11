@@ -7,7 +7,8 @@ import java.io.File;
  *
  */
 public class FileItem {
-	
+	protected static final String LINE_BREAK = "%n";
+	private static final Object NAME = " Name : ";
 	private String mName;
 	private int mId;
 	protected File mFile  = null;
@@ -40,7 +41,7 @@ public class FileItem {
 	@Override
 	public String toString() {
 		StringBuilder mString = new StringBuilder();
-		mString.append(mId).append(" Name : ").append(mName);
+		mString.append(mId).append(NAME).append(mName);
 		return mString.toString();
 	}
 }

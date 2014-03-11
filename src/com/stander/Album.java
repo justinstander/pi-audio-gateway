@@ -18,6 +18,8 @@ import org.slf4j.LoggerFactory;
 public class Album extends FileItem {
 	private static final Logger logger = LoggerFactory.getLogger(FilesServlet.class);
 	private static final String MP3 = "mp3";
+	private static final Object TAG = "TAG";
+	private static final String PERIOD = ".";
 	private int mArtistId;
 	private List<Music> mMusic = null;
 	
@@ -49,11 +51,11 @@ public class Album extends FileItem {
 	@Override
 	public String toString() {
 		StringBuilder mString = new StringBuilder(super.toString());
-		mString.append(String.format("%n"));
+		mString.append(String.format(LINE_BREAK));
 		int a = mMusic.size();
 		for(int i=0;i<a;i++) {
 			mString.append(mMusic.get(i).toString());
-			mString.append(String.format("%n"));
+			mString.append(String.format(LINE_BREAK));
 		}
 		return mString.toString();
 	}
@@ -73,7 +75,7 @@ public class Album extends FileItem {
 			File item = files[i];
 			if( item.isFile() ) {
 				String name = item.getName();
-				String extension = name.substring(name.lastIndexOf('.')+1);
+				String extension = name.substring(name.lastIndexOf(PERIOD)+1);
 				if( extension.equals(MP3) ) {
 					Music musicItem = readTags(item, artistId, getId());
 					mMusic.add(musicItem);
@@ -120,15 +122,15 @@ public class Album extends FileItem {
 	        String id3 = new String(last128); 
 	        String tag = id3.substring(0, 3);
 	        
-	        if (tag.equals("TAG")) { 
+	        if (tag.equals(TAG)) { 
 	        	int zeroByte = last128[125];
 		           if( zeroByte == 0 ) {
 		        	   int trackNumber = last128[126];
 		        	   music = new Music(item, trackNumber-1, artistId, albumId);
 		        	   music.trackNumber = trackNumber;
 		           }
-	        	music.title = id3.substring(3, 32);
-	        	music.year = id3.substring(93, 97);
+	        	music.title = id3.substring(3, 32).trim();
+	        	music.year = id3.substring(93, 97).trim();
 	        } else {
 	        	music = new Music(item,mMusic.size(),artistId,albumId);
 	        }

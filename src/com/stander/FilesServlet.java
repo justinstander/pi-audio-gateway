@@ -27,9 +27,18 @@ import com.google.gson.GsonBuilder;
  */
 @WebServlet(description = "Audio file listing", urlPatterns = { "/Files" })
 public final class FilesServlet extends HttpServlet {
-	private static final String AUDIO_PATH = "AudioPath";
-	private static final Logger logger = LoggerFactory.getLogger(FilesServlet.class);
 	private static final long serialVersionUID = 1L;
+	
+	private static final Logger logger = LoggerFactory.getLogger(FilesServlet.class);
+	private static final String INIT = "init";
+	private static final String DESTROY = "destroy";
+	private static final String SEND_FILE_LIST = "sendFileList";
+	
+	private static final String AUDIO_PATH = "AudioPath";
+	
+	private static final String PARAMETER_ARTIST = "artist";
+	private static final String PARAMETER_ALBUM = "album";
+	private static final String PARAMETER_SONG = "song";
 
     /**
      * Default constructor. 
@@ -42,7 +51,7 @@ public final class FilesServlet extends HttpServlet {
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
-		logger.info("init");
+		logger.info(INIT);
 		Model.getInstance().init(config.getServletContext().getInitParameter(AUDIO_PATH));
 	}
 
@@ -50,7 +59,7 @@ public final class FilesServlet extends HttpServlet {
 	 * @see Servlet#destroy()
 	 */
 	public void destroy() {
-		logger.info("destroy");
+		logger.info(DESTROY);
 	}
 	
 	/**
@@ -59,11 +68,9 @@ public final class FilesServlet extends HttpServlet {
 	protected void doGet(
 			HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String artist = request.getParameter("artist");
-		String album = request.getParameter("album");
-		String song = request.getParameter("song");
-		
-		logger.info("artist: "+artist+" album: "+album+" song: "+song);
+		String artist = request.getParameter(PARAMETER_ARTIST);
+		String album = request.getParameter(PARAMETER_ALBUM);
+		String song = request.getParameter(PARAMETER_SONG);
 		
 		if( artist != null && album != null && song != null ) {
 			sendFile(artist,album,song,response.getOutputStream());
@@ -76,7 +83,7 @@ public final class FilesServlet extends HttpServlet {
 	 * @param output
 	 */
 	private void sendFileList(PrintWriter output) {
-		logger.info("sendFileList");
+		logger.info(SEND_FILE_LIST);
 		Gson gson = new GsonBuilder().create();
 		String fileList = gson.toJson(Model.getInstance().getArtists());
 		output.println(fileList);
@@ -90,13 +97,12 @@ public final class FilesServlet extends HttpServlet {
 	 */
 	private void sendFile(String artist, String album, String song,
 			ServletOutputStream outputStream) {
-		Model model = Model.getInstance();
 		
 		int artistId = Integer.parseInt(artist);
 		int albumId = Integer.parseInt(album);
 		int songId = Integer.parseInt(song);
 		
-		Music music = model.
+		Music music = Model.getInstance().
 				getArtists().get(artistId).
 				getAlbums().get(albumId).
 				getMusic().get(songId);

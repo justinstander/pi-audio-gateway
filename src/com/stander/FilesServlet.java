@@ -19,9 +19,6 @@ import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 /**
  * Servlet implementation class AudioGateway
  */
@@ -84,9 +81,7 @@ public final class FilesServlet extends HttpServlet {
 	 */
 	private void sendFileList(PrintWriter output) {
 		logger.info(SEND_FILE_LIST);
-		Gson gson = new GsonBuilder().create();
-		String fileList = gson.toJson(Model.getInstance().getArtists());
-		output.println(fileList);
+		output.println(Model.getInstance().getFileList());
 	}
 
 	/**

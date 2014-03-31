@@ -7,6 +7,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 /**
  * @author jstander
  *
@@ -14,7 +17,7 @@ import java.util.List;
 public final class Model {
 	private static Model instance;
 	private List<Artist> mArtists;
-	
+	private String mFileList;
 	
 	/**
 	 * Private, Singleton
@@ -43,6 +46,13 @@ public final class Model {
 	/**
 	 * @return
 	 */
+	public String getFileList() {
+		return mFileList;
+	}
+	
+	/**
+	 * @return
+	 */
 	public void init(String path) {
 		File root = new File(path);
 		mArtists = new ArrayList<Artist>();
@@ -58,5 +68,8 @@ public final class Model {
 				}
 			}
 		}
+		
+		Gson gson = new GsonBuilder().create();
+		mFileList = gson.toJson(mArtists);
 	}
 }

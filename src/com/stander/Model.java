@@ -5,6 +5,7 @@ package com.stander;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -57,15 +58,23 @@ public final class Model {
 		File root = new File(path);
 		mArtists = new ArrayList<Artist>();
 		
+		int count;
 		if( root.exists() ) {
 			File[] files = root.listFiles();
-			int count = files.length;
+			
+			count = files.length;
 			for(int i=0;i<count;i++) {
 				File file = files[i];
 				if( file.isDirectory() ) {
-					int id = mArtists.size();
-					mArtists.add(new Artist(files[i],id));
+					mArtists.add(new Artist(files[i]));
 				}
+			}
+			
+			Collections.sort(mArtists,new AlphabeticComparator());
+			
+			int finalCount = mArtists.size();
+			for(int j=0;j<finalCount;j++) {
+				mArtists.get(j).setId(j);
 			}
 		}
 		

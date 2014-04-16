@@ -26,9 +26,9 @@ public class Album extends FileItem {
 	/**
 	 * @param file
 	 */
-	public Album(File file,int index,int artistId) {
+	public Album(File file) {
 		super();
-		init(file,index,artistId);
+		init(file);
 	}
 	
 	/**
@@ -39,10 +39,31 @@ public class Album extends FileItem {
 	}
 	
 	/**
+	 * @param id
+	 */
+	public void setArtistId(int value) {
+		mArtistId = value;
+	}
+	
+	/**
 	 * @return
 	 */
 	public List<Music> getMusic() {
 		return mMusic;
+	}
+	
+	/**
+	 * @see com.stander.FileItem#setId(int)
+	 */
+	@Override
+	public void setId(int value) {
+		super.setId(value);
+		int count = mMusic.size();
+		for(int i=0;i<count;i++) {
+			Music music = mMusic.get(i);
+			music.setAlbumId(getId());
+			music.setArtistId(getArtistId());
+		}
 	}
 	
 	/**
@@ -63,10 +84,9 @@ public class Album extends FileItem {
 	/**
 	 * @see com.stander.FileItem#init(java.io.File)
 	 */
-	protected void init(File file,int index,int artistId) {
-		super.init(file,index);
+	protected void init(File file) {
+		super.init(file);
 		
-		mArtistId = artistId;
 		mMusic = new ArrayList<Music>();
 		
 		File[] files = file.listFiles();
@@ -77,20 +97,20 @@ public class Album extends FileItem {
 				String name = item.getName();
 				String extension = name.substring(name.lastIndexOf(PERIOD)+1);
 				if( extension.equals(MP3) ) {
-					Music musicItem = readTags(item, artistId, getId());
+					Music musicItem = readTags(item);
 					mMusic.add(musicItem);
 				}
 			}
 		}
 		
-		Collections.sort(mMusic, new CustomComparator());
+		Collections.sort(mMusic, new MusicComparator());
 	}
 
 	/**
 	 * @param item
 	 * @return
 	 */
-	private Music readTags(File item,int artistId,int albumId) {
+	private Music readTags(File item) {
 		FileInputStream file = null;
 		Music music = null;
 		
@@ -126,13 +146,13 @@ public class Album extends FileItem {
 	        	int zeroByte = last128[125];
 		           if( zeroByte == 0 ) {
 		        	   int trackNumber = last128[126];
-		        	   music = new Music(item, trackNumber-1, artistId, albumId);
+		        	   music = new Music(item, trackNumber-1);
 		        	   music.trackNumber = trackNumber;
 		           }
 	        	music.title = id3.substring(3, 32).trim();
 	        	music.year = id3.substring(93, 97).trim();
 	        } else {
-	        	music = new Music(item,mMusic.size(),artistId,albumId);
+	        	music = new Music(item,mMusic.size());
 	        }
 	             
 	        try {

@@ -10,15 +10,14 @@ public class FileItem {
 	protected static final String LINE_BREAK = "%n";
 	private static final Object NAME = " Name : ";
 	private String mName;
-	private int mId;
+	protected int mId;
 	protected File mFile  = null;
 	
 	/**
 	 * @param file
 	 */
-	protected void init(File file,int index) {
+	protected void init(File file) {
 		mName = file.getName();
-		mId = index;
 	}
 	
 	/**
@@ -26,6 +25,13 @@ public class FileItem {
 	 */
 	public int getId() {
 		return mId;
+	}
+	
+	/**
+	 * @param value
+	 */
+	public void setId(int value) {
+		mId = value;
 	}
 	
 	/**

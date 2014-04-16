@@ -11,7 +11,7 @@
   </welcome-file-list>
   <context-param>
   	<param-name>AudioPath</param-name>
-  	<!-- <param-value>C:\\Users\\justin.stander\\Music\\jstander</param-value> -->
+  	<!-- <param-value>C:\\Users\\justin.stander\\Music</param-value> -->
   	<!-- <param-value>/Users/jstander/Music/jstander</param-value> -->
 	<param-value>/home/pi/music</param-value>
   </context-param>

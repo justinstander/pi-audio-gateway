@@ -13,15 +13,15 @@ public class Music extends FileItem {
 	
 	public String title;
 	public String year;
-	public int trackNumber;
+	public int trackNumber = -1;
 
 	/**
 	 * @param file
 	 * @param index
 	 */
-	public Music(File file,int index,int artistId,int albumId) {
+	public Music(File file,int index) {
 		super();
-		init(file,index,artistId,albumId);
+		init(file,index);
 	}
 	
 	/**
@@ -32,10 +32,25 @@ public class Music extends FileItem {
 	}
 	
 	/**
+	 * @param value
+	 * @return
+	 */
+	public void setArtistId(int value) {
+		mArtistId = value;
+	}
+	
+	/**
 	 * @return
 	 */
 	public int getAlbumId() {
 		return mAlbumId;
+	}
+	
+	/**
+	 * @param id
+	 */
+	public void setAlbumId(int value) {
+		mAlbumId = value;
 	}
 	
 	/**
@@ -51,10 +66,9 @@ public class Music extends FileItem {
 	 * @param artistId
 	 * @param albumId
 	 */
-	protected void init(File file,int index,int artistId,int albumId) {
-		super.init(file,index);
-		mArtistId = artistId;
-		mAlbumId = albumId;
+	protected void init(File file,int index) {
+		super.init(file);
+		mId = index;
 		mPath = file.getAbsolutePath();
 	}
 }
